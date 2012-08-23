@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keyboard;
 import org.openqa.selenium.WebDriver;
 
-public interface ITestWebDriver extends WebDriver {
+public interface ITestWebDriver<T extends WebDriver> extends WebDriver {
 	
 	public Keyboard getKeyboard();
 	
-	public void setDelegateDriver(WebDriver driver);
+	public void setDelegateDriver(T driver);
 	
 	public WebDriver getDelegateDriver();
 	

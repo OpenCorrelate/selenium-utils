@@ -22,16 +22,16 @@ import com.google.common.base.Predicate;
  * @author Presley H. Cannady, Jr. <revprez@opencorrelate.org>
  *
  */
-public abstract class TestWebDriver implements ITestWebDriver {
+public abstract class TestWebDriver<T extends WebDriver> implements ITestWebDriver<T> {
 
 	
-	private WebDriver driver;
+	private T driver;
 	
-	public void setDelegateDriver(WebDriver driver) {
+	public void setDelegateDriver(T driver) {
 		this.driver = driver;
 	}
 	
-	public TestWebDriver(WebDriver driver) {
+	public TestWebDriver(T driver) {
 		setDelegateDriver(driver);
 	}
 	
@@ -89,14 +89,16 @@ public abstract class TestWebDriver implements ITestWebDriver {
 
 	
 	public Keyboard getKeyboard() {
-		WebDriver d = (driver instanceof TestWebDriver) ? ((TestWebDriver)driver).getDelegateDriver() : driver;
+		@SuppressWarnings("unchecked")
+		T d = (driver instanceof TestWebDriver) ? ((TestWebDriver<T>)driver).getDelegateDriver() : driver;
+		
 		if (d instanceof RemoteWebDriver)
 			return ((RemoteWebDriver)d).getKeyboard();
 		else
 			return null;
 	}
 	
-	public WebDriver getDelegateDriver() {
+	public T getDelegateDriver() {
 		return driver;
 	}
 	
@@ -130,9 +132,9 @@ public abstract class TestWebDriver implements ITestWebDriver {
 	
 	
 	public void inputAndValidate(final By invalid, final By valid, String input) {
-		WebDriver driver = getDelegateDriver();
-		(new FluentWait<WebDriver>(driver)).until(new Predicate<WebDriver>() {
-			public boolean apply(WebDriver driver) { return driver.findElement(invalid).isDisplayed(); }
+		T driver = getDelegateDriver();
+		(new FluentWait<T>(driver)).until(new Predicate<T>() {
+			public boolean apply(T driver) { return driver.findElement(invalid).isDisplayed(); }
 		});
 		
 		driver.findElement(invalid).clear();
@@ -140,7 +142,7 @@ public abstract class TestWebDriver implements ITestWebDriver {
 		if (driver instanceof RemoteWebDriver)
 			((RemoteWebDriver)driver).getKeyboard().pressKey(Keys.TAB);
 		
-		(new FluentWait<WebDriver>(driver)).until(new Predicate<WebDriver>() {
+		(new FluentWait<T>(driver)).until(new Predicate<T>() {
 			public boolean apply(WebDriver d) { return d.findElement(valid).isDisplayed(); }
 		});
 	}
