@@ -148,4 +148,13 @@
 			<layout>default</layout>
 		</pluginRepository>
 	</pluginRepositories>
+	<organization>
+		<name>OpenCorrelate</name>
+		<url>http://blog.opencorrelate.org/</url>
+	</organization>
+	<scm>
+		<url>scm:git:git@github.com:OpenCorrelate/selenium-utils.git</url>
+		<connection>scm:git:git@github.com:OpenCorrelate/selenium-utils.git</connection>
+		<developerConnection>scm:git:git@github.com:OpenCorrelate/selenium-utils.git</developerConnection>
+	</scm>
 </project>
